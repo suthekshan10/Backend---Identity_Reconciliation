@@ -36,7 +36,7 @@ backend_identity_reconciliation/
 ### 1. Clone the Repository
 
 ```sh
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/suthekshan10/Backend---Identity_Reconciliation.git)
 cd backend_identity_reconciliation
 ```
 
