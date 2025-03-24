@@ -1,67 +1,111 @@
 # Backend---Identity_Reconciliation
 
 
-This is a Node.js-based Contact Management API built with Express and MySQL. It allows creating, retrieving, and updating contacts based on email or phone number, ensuring robust data management and consistency.
+This is a Node.js-based Contact Management API built with **Express** and **MySQL**. It allows creating, retrieving, and updating contacts based on email or phone number while maintaining data consistency.
 
 ## Features
 
-- **Environment Configuration**: Securely manage database credentials using `.env` file.
-- **Database Integration**: MySQL database for efficient contact storage and management.
-- **Validation**: Input validation using `express-validator`.
-- **Dynamic Precedence**: Assign and manage contact precedence (primary or secondary).
-- **RESTful API**: Exposes `/identify` endpoint for easy integration.
-- **Error Handling**: Handles unexpected errors gracefully.
+- **Environment Configuration**: Securely manage database credentials using a `.env` file.
+- **Database Integration**: Uses MySQL for contact storage and management.
+- **Input Validation**: Ensures valid input using `express-validator`.
+- **Primary & Secondary Contacts**: Manages contact precedence dynamically.
+- **RESTful API**: Provides an `/identify` endpoint for integration.
+- **Error Handling**: Handles errors gracefully.
 
 ## Prerequisites
 
-- Node.js (v14 or later)
-- MySQL database
-- NPM (Node Package Manager)
-- `.env` file with the following variables:
-  ```plaintext
-  DB_HOST=<your-database-host>
-  DB_USER=<your-database-username>
-  DB_PASS=<your-database-password>
-  DB_NAME=<your-database-name>
-  PORT=<port-number>
+- **Node.js** (v14 or later)
+- **MySQL Database**
+- **NPM** (Node Package Manager)
+- A `.env` file with database credentials.
 
-## Setup
+## Project Structure
 
-1. **Clone the Repository**:
-git clone [https://github.com/your-username/contact-identification-api.git](https://github.com/suthekshan10/Backend---Identity_Reconciliation.git)
+```
+backend_identity_reconciliation/
+│── .vscode/               # VS Code settings (if any)
+│── node_modules/          # Installed dependencies
+│── .env                   # Environment variables
+│── package.json           # Project dependencies & scripts
+│── package-lock.json      # Dependency lock file
+│── server.js              # Main server file
+```
 
-text
+## Setup Instructions
 
-2. **Install Dependencies**:
+### 1. Clone the Repository
+
+```sh
+git clone <repository-url>
+cd backend_identity_reconciliation
+```
+
+### 2. Install Dependencies
+
+```sh
 npm install
+```
 
-text
+### 3. Configure Environment Variables
 
-3. **Create a `.env` File**:
-Add the following environment variables:
+Create a `.env` file in the root directory and add:
+
+```plaintext
 DB_HOST=localhost
 DB_USER=your_username
 DB_PASS=your_password
 DB_NAME=your_database_name
 PORT=3000
+```
 
-text
+### 4. Start the Server
 
-4. **Start the Server**:
+```sh
 npm start
+```
 
-text
-
-## Endpoints
+## API Documentation
 
 ### POST /identify
-
 - **Purpose**: Identify a contact based on email or phone number.
 - **Request Body**:
-- `email`: Optional email address.
-- `phoneNumber`: Optional phone number.
+  ```json
+  {
+    "email": "user@example.com",
+    "phoneNumber": "1234567890"
+  }
+  ```
 - **Response**:
-- `primaryContactId`: ID of the primary contact.
-- `emails`: Array of associated email addresses.
-- `phoneNumbers`: Array of associated phone numbers.
-- `secondaryContactIds`: Array of IDs of secondary contacts.
+  ```json
+  {
+    "primaryContactId": 1,
+    "emails": ["user@example.com"],
+    "phoneNumbers": ["1234567890"],
+    "secondaryContactIds": []
+  }
+  ```
+
+- **Errors**:
+  - `400 Bad Request`: If both `email` and `phoneNumber` are missing.
+  - `500 Internal Server Error`: If something goes wrong.
+
+## Database Schema
+Here is the SQL script to create the database and atble 
+
+```sql
+CREATE DATABASE IF NOT EXISTS contact_management;
+USE contact_management;
+
+CREATE TABLE contacts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NULL,
+  phoneNumber VARCHAR(20) NULL,
+  linkedId INT NULL,
+  linkPrecedence ENUM('primary', 'secondary') NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  deletedAt TIMESTAMP NULL
+);
+```
+
+
