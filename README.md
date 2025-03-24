@@ -37,7 +37,7 @@ backend_identity_reconciliation/
 
 ```sh
 git clone [<repository-url>](https://github.com/suthekshan10/Backend---Identity_Reconciliation.git)
-cd backend_identity_reconciliation
+cd Backend---Identity_Reconciliation
 ```
 
 ### 2. Install Dependencies
